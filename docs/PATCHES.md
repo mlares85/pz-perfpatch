@@ -127,8 +127,19 @@ Patch_ThreadAmbient
 ```
 
 (`Patch_FixDoubleBoneLookup` is a full-method replacement with no branch to gate, so it has no
-separate toggle — same for `Patch_AutoSkipLoadingClick` and `Patch_FpsLogger`, which are QoL/
-diagnostics, not performance fixes, and always run.)
+separate toggle — same for `Patch_AutoSkipLoadingClick`, which is a QoL patch, not a performance
+fix, and always runs.)
+
+One toggle has the **opposite default** — it's opt-in, not opt-out:
+
+```
+Patch_VerboseLogging   (default: false/off)
+```
+
+When off (the default), the mod writes nothing beyond its one-line "loaded" message at boot — no
+per-miss/per-frame console spam, no `~/Zomboid/PZPerfPatch/runs/` disk writes. Set
+`Patch_VerboseLogging=true` in `fixes.ini` to turn on the FPS/hiccup/cache-hit-rate line every 5
+seconds plus the per-run manifest, for troubleshooting.
 
 ## Bonus (non-performance) patches included
 
@@ -136,7 +147,9 @@ diagnostics, not performance fixes, and always run.)
   finishes loading, so you don't need a keyboard/mouse/controller press to get past it. Harmless,
   scoped to only that one loading-screen state.
 - `Patch_FpsLogger` — logs an FPS/hiccup/cache-hit-rate summary to `~/Zomboid/console.txt` every 5
-  seconds, plus an immediate line the instant any single frame takes >50ms. Purely observational.
+  seconds, plus an immediate line the instant any single frame takes >50ms, and triggers
+  `RunManifest`'s per-run disk log. Purely observational, gated behind `Patch_VerboseLogging`
+  (off by default — see above).
 
 ## Honest caveats
 

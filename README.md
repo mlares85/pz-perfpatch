@@ -111,9 +111,17 @@ Patch_ThreadAmbient=false
 Anything not listed stays at its default (enabled). See [`docs/PATCHES.md`](docs/PATCHES.md) for
 every patch's exact toggle name.
 
-Diagnostics are also logged automatically to `~/Zomboid/console.txt` (FPS/hiccup/cache-hit-rate
-line every 5 seconds) and `~/Zomboid/PZPerfPatch/runs/<timestamp>/` (a manifest of exactly which
-patches and threading flags were active for that run).
+**Verbose logging is off by default** — normal play doesn't write anything extra to
+`console.txt` or to disk. If you're troubleshooting (or I ask you to grab logs), add this line to
+`fixes.ini` and relaunch:
+
+```
+Patch_VerboseLogging=true
+```
+
+That turns on the FPS/hiccup/cache-hit-rate line every 5 seconds in `console.txt`, plus a
+per-run manifest of exactly which patches and threading flags were active, archived to
+`~/Zomboid/PZPerfPatch/runs/<timestamp>/`.
 
 ## What's NOT in this build
 

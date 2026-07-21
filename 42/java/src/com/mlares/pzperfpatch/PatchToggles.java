@@ -65,6 +65,14 @@ public final class PatchToggles {
         return ENABLED.getOrDefault(name, true);
     }
 
+    /**
+     * Same override file, opposite default -- for opt-in features (currently just verbose
+     * logging) that should stay silent for normal players unless explicitly turned on.
+     */
+    public static boolean isEnabledDefaultOff(String name) {
+        return ENABLED.getOrDefault(name, false);
+    }
+
     /** Snapshot for RunManifest to record which fixes were actually active this run. */
     public static Map<String, Boolean> snapshot(String[] allFixNames) {
         Map<String, Boolean> out = new LinkedHashMap<>();

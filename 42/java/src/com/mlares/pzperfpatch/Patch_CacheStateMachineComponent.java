@@ -50,16 +50,19 @@ public class Patch_CacheStateMachineComponent {
             return false;
         }
         boolean hit = CACHE.get(self) != null;
+        boolean verbose = PatchToggles.isEnabledDefaultOff("Patch_VerboseLogging");
         if (hit) {
             long hits = HITS.incrementAndGet();
-            if (hits % 50000 == 0) {
+            if (verbose && hits % 50000 == 0) {
                 long misses = MISSES.get();
                 double rate = 100.0 * hits / (hits + misses);
                 System.out.println("[PZPerfPatch] cache: " + hits + " hits, " + misses + " misses, " + rate + "% hit rate");
             }
         } else {
             long misses = MISSES.incrementAndGet();
-            System.out.println("[PZPerfPatch] cache MISS #" + misses);
+            if (verbose) {
+                System.out.println("[PZPerfPatch] cache MISS #" + misses);
+            }
         }
         return hit; // skip the original (expensive) method body only on a hit
     }

@@ -84,7 +84,9 @@ public class Patch_EnableThreadingFlags {
         if (enabled) {
             option.setValue(true);
         }
-        System.out.println("[PZPerfPatch] " + toggleName + ": toggleEnabled=" + enabled
-                + " optionNowReads=" + option.getValue());
+        if (PatchToggles.isEnabledDefaultOff("Patch_VerboseLogging")) {
+            System.out.println("[PZPerfPatch] " + toggleName + ": toggleEnabled=" + enabled
+                    + " optionNowReads=" + option.getValue());
+        }
     }
 }

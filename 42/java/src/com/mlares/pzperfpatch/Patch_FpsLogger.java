@@ -36,6 +36,9 @@ public class Patch_FpsLogger {
 
     @Patch.OnEnter
     public static void enter() {
+        if (!PatchToggles.isEnabledDefaultOff("Patch_VerboseLogging")) {
+            return;
+        }
         RunManifest.ensureInitialized();
 
         long now = System.nanoTime();
