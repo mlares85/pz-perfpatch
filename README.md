@@ -51,10 +51,19 @@ it from the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/
 [`ZombieBuddyInstaller.exe`](https://github.com/zed-0xff/ZombieBuddy/releases/tag/windows_installer)
 and run it (handles copying files and setting launch options for you).
 
-**macOS / Linux (including Steam Deck)** — manual install:
-1. Subscribe to ZombieBuddy on the Steam Workshop (or extract the GitHub release into
-   `~/Zomboid/mods/ZombieBuddy/`).
-2. Copy `ZombieBuddy.jar` from that mod's `libs/` folder into the game's own install directory:
+**macOS / Linux (including Steam Deck)** — there's no automated installer on these platforms, so
+this is manual either way. **Subscribing on the Workshop only gets you the mod's files — it does
+NOT copy the jar into the game directory or set the launch option for you.** Those two steps below
+are still required no matter where the files came from:
+
+1. Get the files, either way:
+   - **Steam Workshop**: subscribe [here](https://steamcommunity.com/sharedfiles/filedetails/?id=3619862853).
+     Steam downloads it to its workshop content folder, typically
+     `~/.local/share/Steam/steamapps/workshop/content/108600/3619862853/` — **not**
+     `~/Zomboid/mods/`. You'll dig `libs/ZombieBuddy.jar` out of that folder in step 2.
+   - **GitHub**: download the release and extract it into `~/Zomboid/mods/ZombieBuddy/` yourself.
+2. Copy `ZombieBuddy.jar` from that mod's `libs/` folder (wherever it landed in step 1) into the
+   game's own install directory:
    - macOS: `~/Library/Application Support/Steam/steamapps/common/ProjectZomboid/Project Zomboid.app/Contents/Java/`
    - Linux / Steam Deck: `~/.steam/steam/steamapps/common/ProjectZomboid/projectzomboid/` (or
      `~/.local/share/Steam/steamapps/common/ProjectZomboid/projectzomboid/`, depending on your
@@ -64,7 +73,9 @@ and run it (handles copying files and setting launch options for you).
    -javaagent:ZombieBuddy.jar --
    ```
    (the trailing `--` is mandatory, don't drop it)
-4. Enable **ZombieBuddy** in Project Zomboid's in-game mod manager.
+4. Enable **ZombieBuddy** in Project Zomboid's in-game mod manager (this is what makes the game
+   recognize the Workshop/GitHub copy as the "ZombieBuddy" mod our `require=` line checks for — a
+   separate thing from the raw jar you copied in step 2).
 
 Full official instructions (security notes, the Java-mod-approval prompt, Windows-specific
 details): ZombieBuddy's own [Installation Guide](https://github.com/zed-0xff/ZombieBuddy/blob/main/doc/Installation.md).
@@ -92,15 +103,18 @@ install path.
 1. **Switch to Desktop Mode** (Steam button → Power → Switch to Desktop). You need a file manager
    or terminal, and the Steam Properties dialog, neither of which are available in Gaming Mode.
 
-2. **Install ZombieBuddy first** (required dependency):
+2. **Install ZombieBuddy first** (required dependency). Subscribing on the Workshop only fetches
+   the files — it does **not** copy the jar into the game directory or set the launch option for
+   you, so steps 2.2–2.4 below are still required either way:
    1. Subscribe to ZombieBuddy on the
-      [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3619862853) — Steam
-      will download it into your Workshop mods folder automatically. (Or, if you'd rather install
-      it manually: download the release from
-      [GitHub](https://github.com/zed-0xff/ZombieBuddy) and extract it into
-      `~/Zomboid/mods/ZombieBuddy/`.)
+      [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3619862853). Steam
+      downloads it to its workshop content cache, typically
+      `~/.local/share/Steam/steamapps/workshop/content/108600/3619862853/` — **not**
+      `~/Zomboid/mods/`. (Or skip the Workshop and download the release from
+      [GitHub](https://github.com/zed-0xff/ZombieBuddy) instead, extracted into
+      `~/Zomboid/mods/ZombieBuddy/` yourself — either source works the same from here on.)
    2. Open the **Dolphin** file manager (or a terminal) and locate `ZombieBuddy.jar` inside that
-      mod's `libs/` folder.
+      mod's `libs/` folder (wherever it landed above).
    3. Copy `ZombieBuddy.jar` into the game's own install directory:
       ```
       ~/.local/share/Steam/steamapps/common/ProjectZomboid/projectzomboid/
