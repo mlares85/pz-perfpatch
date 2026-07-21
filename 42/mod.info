@@ -1,0 +1,7 @@
+name=PZ Perf Patch
+id=PZPerfPatch
+description=Runtime performance patches for Project Zomboid (Java bytecode patching via ZombieBuddy). Caches uncached hot-path lookups and enables safe engine threading flags, found via JFR profiling and decompiled-bytecode analysis. Biggest single fix: caches IsoGameCharacter.getStateMachineComponent(), ~20.9% of CPU under heavy zombie load in profiling. No gameplay changes. Requires ZombieBuddy.
+poster=poster.png
+require=\ZombieBuddy
+javaJarFile=media/java/PZPerfPatch.jar
+javaPkgName=com.mlares.pzperfpatch
