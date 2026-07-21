@@ -85,17 +85,60 @@ Only install Java mods from sources you trust.
 
 ### Installing on Steam Deck specifically
 
-1. Switch to **Desktop Mode** (needed for file access + the Steam launch-options dialog).
-2. Do the ZombieBuddy install above first — same steps, same `-javaagent:ZombieBuddy.jar --`
-   launch option, set via Steam's Properties dialog in Desktop Mode.
-3. Open a file manager (Dolphin) or terminal, navigate to `~/Zomboid/mods/`, and extract this
-   mod's release zip there.
-4. Switch back to Gaming Mode (or stay in Desktop Mode) and launch Project Zomboid normally —
-   Steam Deck runs PZ's native Linux build, no Proton-specific steps needed.
-5. Enable both **ZombieBuddy** and **PZ Perf Patch** in the in-game mod manager, same as any other
-   mod.
-6. This was verified live on real Steam Deck hardware — see the benchmark table above. The bundled
-   JVM on the Deck matches the desktop version tested against, so the same jar works unmodified.
+Full, self-contained walkthrough — you don't need to jump back to the sections above. Steam Deck
+runs Project Zomboid's native Linux build (no Proton involved), so this is the standard Linux
+install path.
+
+1. **Switch to Desktop Mode** (Steam button → Power → Switch to Desktop). You need a file manager
+   or terminal, and the Steam Properties dialog, neither of which are available in Gaming Mode.
+
+2. **Install ZombieBuddy first** (required dependency):
+   1. Subscribe to ZombieBuddy on the
+      [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3619862853) — Steam
+      will download it into your Workshop mods folder automatically. (Or, if you'd rather install
+      it manually: download the release from
+      [GitHub](https://github.com/zed-0xff/ZombieBuddy) and extract it into
+      `~/Zomboid/mods/ZombieBuddy/`.)
+   2. Open the **Dolphin** file manager (or a terminal) and locate `ZombieBuddy.jar` inside that
+      mod's `libs/` folder.
+   3. Copy `ZombieBuddy.jar` into the game's own install directory:
+      ```
+      ~/.local/share/Steam/steamapps/common/ProjectZomboid/projectzomboid/
+      ```
+      (this is the folder that contains `ProjectZomboid64` and `projectzomboid.jar` — if you don't
+      find it there, try `~/.steam/steam/steamapps/common/ProjectZomboid/projectzomboid/` instead,
+      the exact path depends on how Steam was set up on your Deck).
+   4. In Steam (Desktop Mode), right-click **Project Zomboid → Properties → Launch Options**, and
+      set:
+      ```
+      -javaagent:ZombieBuddy.jar --
+      ```
+      The trailing `--` is mandatory — don't drop it.
+   5. Launch Project Zomboid once, open the in-game mod manager, and enable **ZombieBuddy**.
+   6. The first time a Java mod jar loads, ZombieBuddy shows an approval prompt (mod id, jar path,
+      SHA-256 fingerprint) — nothing loads until you approve it. This is expected; it happens once
+      per jar (and again only if the jar's contents change).
+
+3. **Install PZ Perf Patch**:
+   1. Still in Desktop Mode, download the latest release zip from this repo's
+      [Releases](../../releases) page (via the Deck's browser, or `scp`/`rsync` it over from
+      another machine).
+   2. Extract it directly into `~/Zomboid/mods/` — the zip already contains the
+      `PZPerfPatch/42/...` folder structure, so you should end up with
+      `~/Zomboid/mods/PZPerfPatch/42/mod.info` etc.
+   3. Launch Project Zomboid, open the mod manager, and enable **PZ Perf Patch** (alongside
+      ZombieBuddy, which must also stay enabled — it's a hard dependency).
+   4. Approve the jar when ZombieBuddy's prompt appears (same as step 2.6 above).
+
+4. **Confirm it loaded**: check `~/Zomboid/console.txt` after loading a save — you should see
+   `[PZPerfPatch] loaded - caching getStateMachineComponent()`.
+
+5. Switch back to Gaming Mode whenever you're done — nothing above needs Desktop Mode again unless
+   you're changing launch options or updating the mod later.
+
+This exact setup was verified live on real Steam Deck hardware — see the benchmark table above.
+The Deck's bundled JVM matched the desktop machine's version during testing, so the same jar works
+unmodified; no Deck-specific rebuild is needed.
 
 ## Configuration
 
