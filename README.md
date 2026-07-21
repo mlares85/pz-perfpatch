@@ -54,7 +54,34 @@ and run it (handles copying files and setting launch options for you).
 **macOS / Linux (including Steam Deck)** — there's no automated installer on these platforms, so
 this is manual either way. **Subscribing on the Workshop only gets you the mod's files — it does
 NOT copy the jar into the game directory or set the launch option for you.** Those two steps below
-are still required no matter where the files came from:
+are still required no matter where the files came from.
+
+<details>
+<summary>Why doesn't subscribing just install it correctly?</summary>
+
+Steam Workshop only does one thing: deliver files to disk and tell the game engine "this content
+exists." For a normal PZ Lua mod, that's the whole story — the game engine reads a subscribed mod's
+`mod.info`/`media/lua/...` itself, at runtime, because Lua mod-loading is a feature the
+already-running game process implements internally. Enabling it in the mod manager is enough;
+nothing external needs to change.
+
+A Java agent (`-javaagent:ZombieBuddy.jar`) is a different kind of thing entirely — it's a **JVM
+startup flag, not game content**. It has to be present on the actual `java` command line *before*
+the JVM boots, so its instrumentation hooks can attach before any game code — including PZ's own
+mod-loading code — has even loaded. That flag lives in whatever assembles the launch command
+(Steam's Launch Options field, or a launcher config file), and the jar it points to has to sit next
+to the game's own binary, not in the mods folder. Workshop's subscription API has no hook for
+"also edit this other config" or "also copy this file somewhere else" — it delivers content, it
+doesn't run installer logic.
+
+So the "game recognizes ZombieBuddy as an enabled mod" half (what this mod's `require=` line
+checks for) really is fully automatic once you subscribe. It's specifically the "get the JVM to
+launch with this agent attached" half that Workshop structurally can't do on any platform. That's
+exactly why ZombieBuddy ships a separate Windows `.exe` installer — someone had to write actual
+OS-level setup automation (find the Steam/game paths, copy the jar, edit the launch config)
+*outside* of Steam's systems to bridge that gap. No equivalent installer exists yet for
+macOS/Linux, so those two steps stay manual there.
+</details>
 
 1. Get the files, either way:
    - **Steam Workshop**: subscribe [here](https://steamcommunity.com/sharedfiles/filedetails/?id=3619862853).
